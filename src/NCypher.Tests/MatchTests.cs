@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using NUnit.Framework;
 using Rhino.Mocks;
 
@@ -59,6 +60,21 @@ namespace NCypher.Tests
             var writer = MockRepository.GenerateMock<IQueryWriter>();
 
             writer.Expect(o => o.Write("(n)-[]->(m)"));
+            query.WriteTo(writer);
+
+            writer.VerifyAllExpectations();
+        }
+
+        [Test]
+        public void MatchRelationhip_WithAlias()
+        {
+            var query =
+                CypherQuery.Match(
+                    m => m.Node(n => n.WithAlias("n")).RelatesTo(r => r.WithAlias("r")).Node(n => n.WithAlias("m")));
+
+            var writer = MockRepository.GenerateMock<IQueryWriter>();
+
+            writer.Expect(o => o.Write("(n)-[r]->(m)"));
             query.WriteTo(writer);
 
             writer.VerifyAllExpectations();

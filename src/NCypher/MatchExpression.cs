@@ -27,5 +27,11 @@ namespace NCypher
             _expressions.Add(new RelationshipExpression());
             return this;
         }
+
+        public MatchExpression RelatesTo(Func<RelationshipExpression, RelationshipExpression> func)
+        {
+            _expressions.Add(func(new RelationshipExpression()));
+            return this;
+        }
     }
 }
