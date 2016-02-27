@@ -13,36 +13,21 @@ namespace NCypher.Tests
                 Node(n => n
                     .WithAlias("n")));
 
-            var writer = MockRepository.GenerateMock<IQueryWriter>();
-
-            writer.Expect(o => o.Write("(n)"));
-            query.WriteTo(writer);
-
-            writer.VerifyAllExpectations();
+            AssertQueryOutputs(query, "(n)");
         }
 
         [Test]
         public void MatchNode_WithLabel()
         {
             var query = CypherQuery.Match(m => m.Node(n => n.WithLabel("Foo")));
-            var writer = MockRepository.GenerateMock<IQueryWriter>();
-
-            writer.Expect(o => o.Write("(:Foo)"));
-            query.WriteTo(writer);
-
-            writer.VerifyAllExpectations();
+            AssertQueryOutputs(query, "(:Foo)");
         }
 
         [Test]
         public void MatchNode_WithMultipleLabels()
         {
             var query = CypherQuery.Match(m => m.Node(n => n.WithLabels("Foo", "Bar")));
-            var writer = MockRepository.GenerateMock<IQueryWriter>();
-
-            writer.Expect(o => o.Write("(:Foo, Bar)"));
-            query.WriteTo(writer);
-
-            writer.VerifyAllExpectations();
+            AssertQueryOutputs(query, "(:Foo, Bar)");
         }
 
         [Test]
@@ -53,12 +38,7 @@ namespace NCypher.Tests
                     .WithAlias("n")
                     .WithLabel("Foo")));
 
-            var writer = MockRepository.GenerateMock<IQueryWriter>();
-
-            writer.Expect(o => o.Write("(n:Foo)"));
-            query.WriteTo(writer);
-
-            writer.VerifyAllExpectations();
+            AssertQueryOutputs(query, "(n:Foo)");
         }
 
         [Test]
@@ -69,12 +49,7 @@ namespace NCypher.Tests
                 .RelatesTo()
                 .Node(n => n.WithAlias("m")));
 
-            var writer = MockRepository.GenerateMock<IQueryWriter>();
-
-            writer.Expect(o => o.Write("(n)-[]->(m)"));
-            query.WriteTo(writer);
-
-            writer.VerifyAllExpectations();
+            AssertQueryOutputs(query, "(n)-[]->(m)");
         }
 
         [Test]
@@ -85,12 +60,7 @@ namespace NCypher.Tests
                 .RelatesTo(r => r.WithAlias("r"))
                 .Node(n => n.WithAlias("m")));
 
-            var writer = MockRepository.GenerateMock<IQueryWriter>();
-
-            writer.Expect(o => o.Write("(n)-[r]->(m)"));
-            query.WriteTo(writer);
-
-            writer.VerifyAllExpectations();
+            AssertQueryOutputs(query, "(n)-[r]->(m)");
         }
 
         [Test]
@@ -100,9 +70,14 @@ namespace NCypher.Tests
                 .RelatesTo(r => r.WithLabel("Foo"))
                 .Node(n => n));
 
+            AssertQueryOutputs(query, "()-[:Foo]->()");
+        }
+
+        private static void AssertQueryOutputs(CypherQuery query, string output)
+        {
             var writer = MockRepository.GenerateMock<IQueryWriter>();
 
-            writer.Expect(o => o.Write("()-[:Foo]->()"));
+            writer.Expect(o => o.Write(output));
             query.WriteTo(writer);
 
             writer.VerifyAllExpectations();
