@@ -1,11 +1,12 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
 namespace NCypher
 {
     public class NodeExpression : IExpression
     {
         private string _alias;
-        private string _label;
+        private readonly List<string> _labels = new List<string>();
 
         public NodeExpression WithAlias(string alias)
         {
@@ -15,7 +16,13 @@ namespace NCypher
 
         public NodeExpression WithLabel(string label)
         {
-            _label = label;
+            _labels.Add(label);
+            return this;
+        }
+        
+        public NodeExpression WithLabels(params string[] labels)
+        {
+            _labels.AddRange(labels);
             return this;
         }
 
@@ -28,9 +35,9 @@ namespace NCypher
                 builder.Append(_alias);
             }
 
-            if (!string.IsNullOrEmpty(_label))
+            if (_labels.Count > 0)
             {
-                builder.Append($":{_label}");
+                builder.Append($":{string.Join(", ", _labels)}");
             }
 
             builder.Append(")");
