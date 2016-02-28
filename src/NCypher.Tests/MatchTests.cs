@@ -75,12 +75,7 @@ namespace NCypher.Tests
 
         private static void AssertQueryOutputs(CypherQuery query, string output)
         {
-            var writer = MockRepository.GenerateMock<IQueryWriter>();
-
-            writer.Expect(o => o.Write(output));
-            query.WriteTo(writer);
-
-            writer.VerifyAllExpectations();
+            Assert.AreEqual(output, query.Text);
         }
     }
 }

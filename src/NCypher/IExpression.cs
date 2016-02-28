@@ -2,7 +2,7 @@
 
 namespace NCypher
 {
-    internal interface IExpression
+    public interface IExpression
     {
         void Write(StringBuilder builder);
     }

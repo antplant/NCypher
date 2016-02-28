@@ -4,34 +4,24 @@ using System.Text;
 
 namespace NCypher
 {
-    public class MatchExpression
+    public class MatchExpression : IExpression
     {
-        private readonly List<IExpression> _expressions = new List<IExpression>();
+        private readonly IList<IExpression> _expressions;
+
+        public MatchExpression(IList<IExpression> expressions)
+        {
+            _expressions = expressions;
+        }
 
         public void Write(StringBuilder builder)
         {
-            foreach (var expression in _expressions)
-            {
-                expression.Write(builder);
-            }
+            builder.Append("");
         }
 
-        public MatchExpression Node(Func<NodeExpression, NodeExpression> func)
+        public NodeExpression Node(Func<NodeExpression, NodeExpression> func)
         {
-            _expressions.Add(func(new NodeExpression()));
-            return this;
-        }
-
-        public MatchExpression RelatesTo()
-        {
-            _expressions.Add(new RelationshipExpression());
-            return this;
-        }
-
-        public MatchExpression RelatesTo(Func<RelationshipExpression, RelationshipExpression> func)
-        {
-            _expressions.Add(func(new RelationshipExpression()));
-            return this;
+            _expressions.Add(this);
+            return (func(new NodeExpression(_expressions)));
         }
     }
 }

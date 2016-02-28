@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace NCypher
 {
@@ -6,6 +8,12 @@ namespace NCypher
     {
         private string _alias;
         private string _label;
+        private readonly IList<IExpression> _expressions;
+
+        public RelationshipExpression(IList<IExpression> expressions)
+        {
+            _expressions = expressions;
+        }
 
         public void Write(StringBuilder builder)
         {
@@ -29,6 +37,12 @@ namespace NCypher
         {
             _label = label;
             return this;
+        }
+
+        public NodeExpression Node(Func<NodeExpression, NodeExpression> func)
+        {
+            _expressions.Add(this);
+            return (func(new NodeExpression(_expressions)));
         }
     }
 }
