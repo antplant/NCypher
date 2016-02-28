@@ -11,7 +11,7 @@ namespace NCypher
         private readonly List<string> _labels = new List<string>();
         private readonly IList<IExpression> _expressions;
         private string _propertyKey;
-        private string _propertyValue;
+        private object _propertyValue;
 
         public NodeExpression(IList<IExpression> expressions)
         {
@@ -44,7 +44,7 @@ namespace NCypher
             return expression;
         }
         
-        public NodeExpression WithProperty(string key, string value)
+        public NodeExpression WithProperty(string key, object value)
         {
             _propertyKey = key;
             _propertyValue = value;
@@ -76,7 +76,8 @@ namespace NCypher
 
             if (!string.IsNullOrEmpty(_propertyKey))
             {
-                builder.Append($" {{ {_propertyKey}:\"{_propertyValue}\" }}");
+                var value = _propertyValue is string ? $"\"{_propertyValue}\"" : _propertyValue;
+                builder.Append($" {{ {_propertyKey}:{value} }}");
             }
 
             builder.Append(")");

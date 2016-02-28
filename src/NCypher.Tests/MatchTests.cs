@@ -1,6 +1,4 @@
-using System.Diagnostics;
 using NUnit.Framework;
-using Rhino.Mocks;
 
 namespace NCypher.Tests
 {
@@ -42,14 +40,16 @@ namespace NCypher.Tests
         }
 
         [Test]
-        public void MatchNode_WithProperty()
+        [TestCase("SomeValue", "MATCH (n:Foo { SomeProp:\"SomeValue\" })")]
+        [TestCase(1234, "MATCH (n:Foo { SomeProp:1234 })")]
+        public void MatchNode_WithProperty(object value, string output)
         {
             var query = CypherQuery.Match(m => m
                 .Node(n => n.WithAlias("n")
                     .WithLabel("Foo")
-                    .WithProperty("SomeProp", "SomeValue")));
+                    .WithProperty("SomeProp", value)));
 
-            AssertQueryOutputs(query, "MATCH (n:Foo { SomeProp:\"SomeValue\" })");
+            AssertQueryOutputs(query, output);
         }
 
         [Test]
