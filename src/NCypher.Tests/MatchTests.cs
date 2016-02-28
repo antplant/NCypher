@@ -13,21 +13,21 @@ namespace NCypher.Tests
                 Node(n => n
                     .WithAlias("n")));
 
-            AssertQueryOutputs(query, "(n)");
+            AssertQueryOutputs(query, "MATCH (n)");
         }
 
         [Test]
         public void MatchNode_WithLabel()
         {
             var query = CypherQuery.Match(m => m.Node(n => n.WithLabel("Foo")));
-            AssertQueryOutputs(query, "(:Foo)");
+            AssertQueryOutputs(query, "MATCH (:Foo)");
         }
 
         [Test]
         public void MatchNode_WithMultipleLabels()
         {
             var query = CypherQuery.Match(m => m.Node(n => n.WithLabels("Foo", "Bar")));
-            AssertQueryOutputs(query, "(:Foo, Bar)");
+            AssertQueryOutputs(query, "MATCH (:Foo, Bar)");
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace NCypher.Tests
                     .WithAlias("n")
                     .WithLabel("Foo")));
 
-            AssertQueryOutputs(query, "(n:Foo)");
+            AssertQueryOutputs(query, "MATCH (n:Foo)");
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace NCypher.Tests
                 .RelatesTo()
                 .Node(n => n.WithAlias("m")));
 
-            AssertQueryOutputs(query, "(n)-[]->(m)");
+            AssertQueryOutputs(query, "MATCH (n)-[]->(m)");
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace NCypher.Tests
                 .RelatesTo(r => r.WithAlias("r"))
                 .Node(n => n.WithAlias("m")));
 
-            AssertQueryOutputs(query, "(n)-[r]->(m)");
+            AssertQueryOutputs(query, "MATCH (n)-[r]->(m)");
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace NCypher.Tests
                 .RelatesTo(r => r.WithLabel("Foo"))
                 .Node(n => n));
 
-            AssertQueryOutputs(query, "()-[:Foo]->()");
+            AssertQueryOutputs(query, "MATCH ()-[:Foo]->()");
         }
 
         private static void AssertQueryOutputs(CypherQuery query, string output)

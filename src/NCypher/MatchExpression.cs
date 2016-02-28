@@ -15,7 +15,7 @@ namespace NCypher
 
         public void Write(StringBuilder builder)
         {
-            builder.Append("");
+            builder.Append("MATCH ");
         }
 
         public NodeExpression Node(Func<NodeExpression, NodeExpression> func)
