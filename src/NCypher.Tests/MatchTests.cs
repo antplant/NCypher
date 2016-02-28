@@ -42,6 +42,17 @@ namespace NCypher.Tests
         }
 
         [Test]
+        public void MatchNode_WithProperty()
+        {
+            var query = CypherQuery.Match(m => m
+                .Node(n => n.WithAlias("n")
+                    .WithLabel("Foo")
+                    .WithProperty("SomeProp", "SomeValue")));
+
+            AssertQueryOutputs(query, "MATCH (n:Foo { SomeProp:\"SomeValue\" })");
+        }
+
+        [Test]
         public void MatchRelationship()
         {
             var query = CypherQuery.Match(m => m

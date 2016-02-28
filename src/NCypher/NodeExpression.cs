@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace NCypher
@@ -9,6 +10,8 @@ namespace NCypher
         private string _alias;
         private readonly List<string> _labels = new List<string>();
         private readonly IList<IExpression> _expressions;
+        private string _propertyKey;
+        private string _propertyValue;
 
         public NodeExpression(IList<IExpression> expressions)
         {
@@ -40,6 +43,14 @@ namespace NCypher
             var expression = new RelationshipExpression(_expressions);
             return expression;
         }
+        
+        public NodeExpression WithProperty(string key, string value)
+        {
+            _propertyKey = key;
+            _propertyValue = value;
+
+            return this;
+        }
 
         public RelationshipExpression RelatesTo(Func<RelationshipExpression, RelationshipExpression> func)
         {
@@ -61,6 +72,11 @@ namespace NCypher
             if (_labels.Count > 0)
             {
                 builder.Append($":{string.Join(", ", _labels)}");
+            }
+
+            if (!string.IsNullOrEmpty(_propertyKey))
+            {
+                builder.Append($" {{ {_propertyKey}:\"{_propertyValue}\" }}");
             }
 
             builder.Append(")");

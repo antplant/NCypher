@@ -21,7 +21,7 @@ namespace NCypher
         public NodeExpression Node(Func<NodeExpression, NodeExpression> func)
         {
             _expressions.Add(this);
-            return (func(new NodeExpression(_expressions)));
+            return func(new NodeExpression(_expressions));
         }
     }
 }
