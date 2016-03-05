@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -12,6 +13,7 @@ namespace NCypher
         private readonly IList<IExpression> _expressions;
         private string _propertyKey;
         private object _propertyParameter;
+        private readonly IDictionary<string, string> _properties = new Dictionary<string, string>();
 
         public NodeExpression(IList<IExpression> expressions)
         {
@@ -44,11 +46,9 @@ namespace NCypher
             return expression;
         }
         
-        public NodeExpression WithProperty(string key, object value)
+        public NodeExpression WithProperty(string key, string value)
         {
-            _propertyKey = key;
-            _propertyParameter = value;
-
+            _properties[key] = value;
             return this;
         }
 
@@ -74,9 +74,11 @@ namespace NCypher
                 builder.Append($":{string.Join(", ", _labels)}");
             }
 
-            if (!string.IsNullOrEmpty(_propertyKey))
+            if (_properties.Count > 0)
             {
-                builder.Append($" {{ {_propertyKey}: {{ {_propertyParameter} }} }}");
+                builder.Append(" { ");
+                builder.Append(string.Join(", ", _properties.Select(o => $"{o.Key}: {{ {o.Value} }}")));
+                builder.Append(" }");
             }
 
             builder.Append(")");
