@@ -36,17 +36,19 @@ namespace NCypher
             return this;
         }
         
-        public RelationshipExpression RelatesTo()
-        {
-            _expressions.Add(this);
-
-            var expression = new RelationshipExpression(_expressions);
-            return expression;
-        }
-        
         public NodeExpression WithProperty(string key, string value)
         {
             _properties[key] = value;
+            return this;
+        }
+
+        public NodeExpression WithProperties(object properties)
+        {
+            foreach (var property in properties.GetType().GetProperties())
+            {
+                _properties[property.Name] = property.GetValue(properties).ToString();
+            }
+
             return this;
         }
 
@@ -55,6 +57,14 @@ namespace NCypher
             _expressions.Add(this);
 
             var expression = func(new RelationshipExpression(_expressions));
+            return expression;
+        }
+
+        public RelationshipExpression RelatesTo()
+        {
+            _expressions.Add(this);
+
+            var expression = new RelationshipExpression(_expressions);
             return expression;
         }
 
