@@ -11,8 +11,6 @@ namespace NCypher
         private string _alias;
         private readonly List<string> _labels = new List<string>();
         private readonly IList<IExpression> _expressions;
-        private string _propertyKey;
-        private object _propertyParameter;
         private readonly IDictionary<string, string> _properties = new Dictionary<string, string>();
 
         public NodeExpression(IList<IExpression> expressions)
