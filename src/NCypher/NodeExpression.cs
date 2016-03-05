@@ -36,9 +36,9 @@ namespace NCypher
             return this;
         }
         
-        public NodeExpression WithProperty(string key, string value)
+        public NodeExpression WithProperty(string propertyName, string parameterName)
         {
-            _properties[key] = value;
+            _properties[propertyName] = parameterName;
             return this;
         }
 
