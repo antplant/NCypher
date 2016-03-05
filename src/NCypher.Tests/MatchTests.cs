@@ -70,7 +70,6 @@ namespace NCypher.Tests
                     .WithProperties(new {PropOne = "Param1", PropTwo = "Param2"})));
 
             AssertQueryOutputs(query, "MATCH (n { PropOne: { Param1 }, PropTwo: { Param2 } })");
-
         }
 
         [Test]
