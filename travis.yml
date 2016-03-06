@@ -1,4 +1,0 @@
-language: csharp
-solution: src/NCypher.sln
-script:
-	- xbuild /p:Configuration=Release /p:TargetFrameworkVersion="4.5" src/NCypher.sln
