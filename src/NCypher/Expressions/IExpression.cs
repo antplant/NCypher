@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace NCypher
+namespace NCypher.Expressions
 {
     public interface IExpression
     {

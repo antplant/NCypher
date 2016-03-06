@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NCypher
+namespace NCypher.Expressions
 {
     public class PathExpression : IExpression
     {
