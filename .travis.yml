@@ -1,2 +1,5 @@
 language: csharp
 solution: src/NCypher.sln
+script:
+    - xbuild /p:Configuration=Release src/NCypher.sln
+    - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./src/NCypher.Tests/bin/Release/NCypher.Tests.dll
