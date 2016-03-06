@@ -5,6 +5,6 @@ install:
     - nuget install NUnit.Runners -OutputDirectory testrunner
 script:
     - xbuild /p:Configuration=Release src/NCypher.sln
-    - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./src/NCypher.Tests/bin/Release/NCypher.Tests.dll
+    - mono ./testrunner/NUnit.Console.*/tools/nunit3-console.exe ./src/NCypher.Tests/bin/Release/NCypher.Tests.dll
 notifications:
     email: false
