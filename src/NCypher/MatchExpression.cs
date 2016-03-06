@@ -23,5 +23,11 @@ namespace NCypher
             _expressions.Add(this);
             return func(new NodeExpression(_expressions));
         }
+
+        public IExpression Path(Func<PathExpression, IExpression> func)
+        {
+            _expressions.Add(this);
+            return func(new PathExpression(_expressions));
+        }
     }
 }

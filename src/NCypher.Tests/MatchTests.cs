@@ -104,6 +104,18 @@ namespace NCypher.Tests
             AssertQueryOutputs(query, "MATCH ()-[:Foo]->()");
         }
 
+        [Test]
+        public void MatchNamedPath()
+        {
+            var query = CypherQuery.Match(m => m
+                .Path(p => p.WithAlias("p")
+                    .Node(n => n.WithAlias("n"))
+                    .RelatesTo()
+                    .Node(n => n.WithAlias("m"))));
+
+            AssertQueryOutputs(query, "MATCH p = (n)-[]->(m)");
+        }
+
         private static void AssertQueryOutputs(CypherQuery query, string output)
         {
             Assert.AreEqual(output, query.Text);

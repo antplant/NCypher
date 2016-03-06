@@ -45,6 +45,7 @@
     <Compile Include="IQueryWriter.cs" />
     <Compile Include="MatchExpression.cs" />
     <Compile Include="NodeExpression.cs" />
+    <Compile Include="PathExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelationshipExpression.cs" />
   </ItemGroup>
